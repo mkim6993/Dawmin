@@ -1,0 +1,7 @@
+#master-controls-container {
+    height: 100px;
+    background-color: rgb(143, 143, 143);
+    position: fixed;
+    width: 100%;
+    top: 0px;
+}

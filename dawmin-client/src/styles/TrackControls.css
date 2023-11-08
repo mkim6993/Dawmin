@@ -1,0 +1,7 @@
+#track-controls-container {
+    background-color: brown;
+    height: 30px;
+    position: fixed;
+    width: 100%;
+    top: 100px;
+}
