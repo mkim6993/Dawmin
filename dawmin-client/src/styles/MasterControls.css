@@ -4,4 +4,24 @@
     position: fixed;
     width: 100%;
     top: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+#audio-player-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    gap: 5px;
+    border-radius: 5px;
+}
+
+#audio-player-controls:hover {
+    background-color: rgb(125, 125, 125);
+    cursor: pointer;
 }
