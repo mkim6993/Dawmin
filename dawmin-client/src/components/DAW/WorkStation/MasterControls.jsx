@@ -16,9 +16,9 @@ const MasterControls =
   return (
     <div id="master-controls-container">
       <div id="audio-player-controls">
-        <IoPlaySkipBack size={"28px"}/>
-        { isPlaying ? <IoPlay size={"28px"} onClick={togglePlayPause} color={"green"} /> : <IoPlay size={"28px"} onClick={togglePlayPause} />}
-        { isRecording ? <IoEllipse size={"25px"} color={"rgb(199, 2, 2)"} onClick={stopRecording} /> : <IoEllipse size={"25px"} onClick={startRecording} />}
+        <IoPlaySkipBack size={"24px"}/>
+        { isPlaying ? <IoPlay size={"24px"} onClick={togglePlayPause} color={"green"} /> : <IoPlay size={"24px"} onClick={togglePlayPause} />}
+        { isRecording ? <IoEllipse size={"23px"} color={"rgb(199, 2, 2)"} onClick={stopRecording} /> : <IoEllipse size={"23px"} onClick={startRecording} />}
       </div>
       <VolumeSlider masterVolume={masterVolume} onChangeMasterVolume={onChangeMasterVolume} />
     </div>

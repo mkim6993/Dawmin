@@ -1,12 +1,12 @@
 #track-control-add-container {
-    background-color: rgb(103, 107, 112);
+    background-color: rgb(78, 81, 85);
     width: 250px;
     display: flex;
     align-items: center;
 }
 
 #add-track-button {
-    background-color: rgb(159, 163, 170);
+    background-color: rgb(120, 124, 131);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,8 +14,4 @@
     width: 40px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
     margin-left: 10px;
-}
-
-#add-track-button:hover {
-    cursor: pointer;
 }

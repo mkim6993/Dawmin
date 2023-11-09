@@ -1,8 +1,63 @@
-#track-profile-container {
-    background-color: orange;
+.track-profile-container {
+    background-color: rgb(112, 117, 124);
     width: 250px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    border: .5px solid rgb(93, 97, 102);
+}
+
+.single-track-controls-container {
+    /* background-color: red; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.single-track-sound-control {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(138, 142, 148);
+    margin-right: 10px;
+    border-radius: 5px;
+    box-shadow: .7px .7px .7px rgba(0, 0, 0, 0.3);
+    border: .01px solid rgb(83, 86, 90);
+}
+
+.flex-center-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.track-mute-button {
+    padding: 3px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-right: 1px solid rgb(93, 97, 102);
+
+}
+
+.track-sound-only-button {
+    padding: 3px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.track-profile-name {
+    font-size: 15px;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.track-mute-on {
+    background-color: rgb(69, 148, 157);
+}
+
+.track-sound-only-on {
+    background-color: rgb(176, 150, 66);
 }

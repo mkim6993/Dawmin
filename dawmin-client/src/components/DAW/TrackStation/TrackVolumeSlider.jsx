@@ -14,11 +14,8 @@ const TrackVolumeSlider = () => {
                 min={-100}
                 max={100}
                 step={.1}
-                value={1}
-                id={`track-volume${id}`}
-                onChange={event => {
-                    console.log(event.target.valueAsNumber + `track-slider-appearance + ${id}`)
-                }}
+                id={`slider-appearance + ${id}`}
+                className="track-slider-appearance"
             />
         </div>
     )

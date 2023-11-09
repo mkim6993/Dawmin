@@ -7,3 +7,14 @@
 #work-station-container::-webkit-scrollbar {
     display: none;
 }
+
+#print-tracks {
+    position: fixed;
+    z-index: 100;
+}
+
+#add-tracks {
+    position: fixed;
+    z-index: 100;
+    top: 20px;
+}

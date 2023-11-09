@@ -6,7 +6,7 @@ const TrackControlAdd = () => {
     return (
         <div id="track-control-add-container">
             <div id="add-track-button">
-                <IoAdd size={"24px"} color={"gb(188, 188, 188)"} />
+                <IoAdd size={"24px"} color={"rgb(240, 240, 240)"} />
             </div>
         </div>
     )

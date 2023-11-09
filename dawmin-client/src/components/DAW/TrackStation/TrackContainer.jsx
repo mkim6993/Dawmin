@@ -2,10 +2,10 @@ import "../../../styles/TrackContainer.css";
 import TrackStems from "./TrackStems";
 import TrackProfile from "./TrackProfile";
 
-const TrackContainer = () => {
+const TrackContainer = ({ track }) => {
   return (
     <div id="track-container">
-        <TrackProfile />
+        <TrackProfile track={track}/>
         <TrackStems />
     </div>
   )
