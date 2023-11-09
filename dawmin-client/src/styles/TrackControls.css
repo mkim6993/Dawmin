@@ -1,7 +1,9 @@
 #track-controls-container {
     background-color: brown;
-    height: 30px;
+    height: 35px;
     position: fixed;
     width: 100%;
     top: 100px;
+    display: flex;
+    flex-direction: row;
 }

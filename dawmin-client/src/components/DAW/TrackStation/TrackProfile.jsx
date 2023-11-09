@@ -1,4 +1,5 @@
 import "../../../styles/TrackProfile.css";
+import TrackVolumeSlider from "./TrackVolumeSlider";
 
 const TrackProfile = () => {
   return (
@@ -6,8 +7,8 @@ const TrackProfile = () => {
         <div>
             Audio 1
         </div>
-        <div>
-            TrackProfile
+        <div className="single-track-controls-container">
+            <TrackVolumeSlider />
         </div>
     </div>
   )

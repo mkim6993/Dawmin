@@ -1,6 +1,6 @@
 #master-controls-container {
     height: 100px;
-    background-color: rgb(143, 143, 143);
+    background-color: rgb(180, 183, 187);
     position: fixed;
     width: 100%;
     top: 0px;
@@ -22,6 +22,6 @@
 }
 
 #audio-player-controls:hover {
-    background-color: rgb(125, 125, 125);
+    background-color: rgb(179, 179, 179);
     cursor: pointer;
 }
