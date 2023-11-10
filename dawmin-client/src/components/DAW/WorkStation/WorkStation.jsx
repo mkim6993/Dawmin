@@ -3,22 +3,26 @@ import { useState, useEffect } from "react";
 import MasterControls from "./MasterControls";
 import TrackStation from "../TrackStation/TrackStation";
 
-const Tracks = [
-  {
-    id: 1,
-    name: "Audio 1",
-    muted: false,
-    isolated: false,
-    volume: 0
-  },
-  {
-    id:2, 
-    name: "Audio 2",
-    muted: true,
-    isolated: true,
-    volume: 0
+const Tracks = {
+  projectID: "1",
+  trackCount: 0,
+  projectTracks: {
+    // "1": {
+    //   id: "1",
+    //   name: "Audio 1",
+    //   muted: false,
+    //   isolated: false,
+    //   volume: 0
+    // },
+    // "2": {
+    //   id: "2", 
+    //   name: "Audio 2",
+    //   muted: true,
+    //   isolated: true,
+    //   volume: 0
+    // }
   }
-];
+};
 
 const WorkStation = () => {
   console.log("work station component rerendered");
@@ -36,6 +40,11 @@ const WorkStation = () => {
    * Project Track states
    */
   const [projectTracks, setProjectTracks] = useState(null);
+  const [trackCount, setTrackCount] = useState(0);
+
+  function generateUniqueID() {
+    return Math.random().toString(36).slice(2, 9);
+  }
 
   /**
    * Master Control Methods
@@ -66,26 +75,60 @@ const WorkStation = () => {
     console.log(projectTracks);
   }
 
-  function addTrack() {
-    const sampleTrack = {
-      id: 3,
-      name: "sampleTrack",
+  function createNewTrack() {
+    let newTrackID = generateUniqueID();
+    let newTrackCount = trackCount + 1;
+    const newTrack = {
+      id: newTrackID,
+      name: "Audio " + newTrackCount.toString(),
       muted: false,
       isolated: false,
       volume: 0
     }
-    setProjectTracks([...projectTracks, sampleTrack])
+    setProjectTracks(prevTracks => ({
+      ...prevTracks,
+      [newTrackID]: newTrack
+    }));
+    setTrackCount(newTrackCount);
+  }
+
+  function toggleTrackMute(trackID) {
+    if (projectTracks && projectTracks[trackID]) {
+      const updatedTracks = {
+        ...projectTracks,
+        [trackID]: {
+          ...projectTracks[trackID],
+          muted: !projectTracks[trackID].muted,
+        },
+      };
+
+      setProjectTracks(updatedTracks);
+    }
+  }
+
+  function toggleTrackIsolation(trackID) {
+    if (projectTracks && projectTracks[trackID]) {
+      const updatedTracks = {
+        ...projectTracks,
+        [trackID]: {
+          ...projectTracks[trackID],
+          isolated: !projectTracks[trackID].isolated,
+        },
+      };
+
+      setProjectTracks(updatedTracks);
+    }
   }
 
   useEffect(() => {
-    console.log("useeffect in workstation")
-    setProjectTracks(Tracks);
+    console.log("useeffect in workstation");
+    setProjectTracks(Tracks.projectTracks);
+    setTrackCount(Tracks.trackCount);
   }, []);
   
   return (
     <div id="work-station-container">
       <button onClick={() => printTracks()} id="print-tracks">print tracks</button>
-      <button onClick={() => addTrack()} id="add-tracks">add track</button>
       <MasterControls 
         isPlaying={isPlaying} 
         togglePlayPause={togglePlayPause} 
@@ -95,7 +138,12 @@ const WorkStation = () => {
         startRecording={startRecording}
         stopRecording={stopRecording}
       />
-      <TrackStation projectTracks={projectTracks} />
+      <TrackStation 
+        projectTracks={projectTracks} 
+        createNewTrack={createNewTrack}
+        toggleTrackMute={toggleTrackMute}
+        toggleTrackIsolation={toggleTrackIsolation}
+      />
     </div>
   )
 };

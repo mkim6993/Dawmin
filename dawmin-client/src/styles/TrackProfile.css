@@ -35,17 +35,7 @@
 }
 
 .track-mute-button {
-    padding: 3px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
     border-right: 1px solid rgb(93, 97, 102);
-
-}
-
-.track-sound-only-button {
-    padding: 3px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
 }
 
 .track-profile-name {
@@ -58,6 +48,18 @@
     background-color: rgb(69, 148, 157);
 }
 
+.track-mute-inner {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding: 3px;
+}
+
 .track-sound-only-on {
     background-color: rgb(176, 150, 66);
+}
+
+.track-sound-only-inner {
+    padding: 3px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }

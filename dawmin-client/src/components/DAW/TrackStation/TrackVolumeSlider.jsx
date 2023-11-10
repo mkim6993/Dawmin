@@ -19,6 +19,6 @@ const TrackVolumeSlider = () => {
             />
         </div>
     )
-}
+};
 
 export default TrackVolumeSlider;
