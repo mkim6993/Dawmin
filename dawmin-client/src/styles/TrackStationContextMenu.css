@@ -1,0 +1,22 @@
+#track-station-context-menu-container {
+    background-color: rgba(200, 206, 214, 0.892);
+    opacity: 1;
+    padding: 4px;
+    border-radius: 6px;
+    box-shadow: 2px 2px 5px rgba(80, 86, 98, 0.497);
+    font-size: 12px;
+}
+
+hr {
+    border: 0.5px solid rgba(96, 106, 119, 0.892);
+}
+
+.c-menu-item {
+    padding: 4px;
+}
+
+.c-menu-item:hover {
+    background-color: rgba(110, 152, 208, 0.892);
+    cursor: default;
+    border-radius: 3px;
+}

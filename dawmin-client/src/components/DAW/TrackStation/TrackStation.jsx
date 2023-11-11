@@ -6,9 +6,11 @@ const TrackStation = ({
   projectTracks, 
   toggleTrackMute, 
   toggleTrackIsolation, 
-  createNewTrack 
+  createNewTrack,
+  changeTrackVolume,
+  deleteTrack, 
 }) => {
-  console.log("trackstation:", projectTracks)
+
   return (
     <div id="track-station-container">
       <TrackControls createNewTrack={createNewTrack} />
@@ -19,6 +21,8 @@ const TrackStation = ({
             track={track} 
             toggleTrackMute={toggleTrackMute}
             toggleTrackIsolation={toggleTrackIsolation}
+            changeTrackVolume={changeTrackVolume}
+            deleteTrack={deleteTrack}
           />
         ))}
         <div style={{height: "200px"}}>Bottom</div>

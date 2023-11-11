@@ -1,8 +1,6 @@
 import "../../../styles/TrackVolumeSlider.css";
 
-const TrackVolumeSlider = () => {
-    const id = "2";
-
+const TrackVolumeSlider = ({ changeTrackVolume, trackID }) => {
     /**
      * Currently utilized to show and hide the volume value on drag
      */
@@ -14,8 +12,10 @@ const TrackVolumeSlider = () => {
                 min={-100}
                 max={100}
                 step={.1}
-                id={`slider-appearance + ${id}`}
                 className="track-slider-appearance"
+                onChange={event => {
+                    changeTrackVolume(trackID, event.target.valueAsNumber)
+                }}
             />
         </div>
     )

@@ -1,11 +1,21 @@
 import "../../../styles/TrackProfile.css";
 import TrackVolumeSlider from "./TrackVolumeSlider";
 import { IoHeadset, IoVolumeMute } from "react-icons/io5";
+import { useState } from "react";
+import TrackStationContextMenu from "./TrackStationContextMenu";
+
+const initialContextMenu = {
+    show: false,
+    x: 0,
+    y: 0,
+  };
 
 const TrackProfile = ({ 
     track, 
     toggleTrackMute, 
-    toggleTrackIsolation 
+    toggleTrackIsolation,
+    changeTrackVolume,
+    deleteTrack,
 }) => {
 
     function toggleMute() {
@@ -16,8 +26,22 @@ const TrackProfile = ({
         toggleTrackIsolation(track.id);
     }
 
+    const [contextMenu, setContextMenu] = useState(initialContextMenu);
+
+    function handleContextMenu(event) {
+      console.log("handlecontextmenu")
+      event.preventDefault();
+      const { pageX, pageY } = event;
+      setContextMenu({ show: true, x: pageX, y: pageY });
+    }
+  
+    function closeContextMenu() {
+      setContextMenu(initialContextMenu);
+    }
+
     return (
-        <div className="track-profile-container">
+        <div className="track-profile-container" onContextMenu={(event) => handleContextMenu(event)}>
+            {contextMenu.show && <TrackStationContextMenu trackID={track.id} x={contextMenu.x} y={contextMenu.y} closeMenu={closeContextMenu} deleteTrack={deleteTrack}/>}
             <div>
                 <div className="track-profile-name">
                     {track.name}
@@ -47,7 +71,7 @@ const TrackProfile = ({
                             )}
                         </div>
                     </div>
-                    <TrackVolumeSlider />
+                    <TrackVolumeSlider changeTrackVolume={changeTrackVolume} trackID={track.id}/>
                 </div>
             </div>
      	</div>

@@ -120,6 +120,30 @@ const WorkStation = () => {
     }
   }
 
+  function changeTrackVolume(trackID, value) {
+    console.log("changeTrackvol")
+    if (projectTracks && projectTracks[trackID]) {
+      const updatedTracks = {
+        ...projectTracks,
+        [trackID]: {
+          ...projectTracks[trackID],
+          volume: value,
+        },
+      };
+
+      setProjectTracks(updatedTracks);
+    }
+  }
+
+  function deleteTrack(trackID) {
+    if (projectTracks && projectTracks[trackID]) {
+      const updatedTracks = { ...projectTracks };
+      delete updatedTracks[trackID];
+      setProjectTracks(updatedTracks);
+      setTrackCount(trackCount - 1);
+    }
+  }
+
   useEffect(() => {
     console.log("useeffect in workstation");
     setProjectTracks(Tracks.projectTracks);
@@ -143,6 +167,8 @@ const WorkStation = () => {
         createNewTrack={createNewTrack}
         toggleTrackMute={toggleTrackMute}
         toggleTrackIsolation={toggleTrackIsolation}
+        changeTrackVolume={changeTrackVolume}
+        deleteTrack={deleteTrack}
       />
     </div>
   )
