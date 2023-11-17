@@ -1,82 +1,75 @@
-import { useState } from "react";
+import { useEffect, useRef } from 'react';
 
 const VoiceRecorder = () => {
-    const [microphonePermissionState, setMicrophonePermissionState] = useState("denied");
-    const [availableAudioDevices, setAvailableAudioDevices] = useState([]);
-    const [selectedAudioDevice, setSelectedAudioDevice] = useState(undefined);
+    const mediaRecorder = useRef();
+    const chunks = useRef([]);
+    const audioContext = useRef(new AudioContext());
 
-    function handlePermissionState(state) {
-        setMicrophonePermissionState(state);
-        if (state == "granted") {
-            getAvailableAudioDevices().then((devices) => {
-                setAvailableAudioDevices(devices);
-                setSelectedAudioDevice(devices.find((device) => device.id === "default")?.id);
-            })
-        }
+    const recordAudio = () => {
+        mediaRecorder.current.start();
+        console.log(mediaRecorder.current.state);
+        console.log("recorder started");
+    };
+
+    const stopRecordAudio = () => {
+        mediaRecorder.current.stop();
+        console.log(mediaRecorder.current.state);
+        console.log("recorder stopped");
     }
 
-    navigator.permissions.query({ name: "microphone" }).then(function(queryResult) {
-        handlePermissionState(queryResult.state);
-        queryResult.onchange = function(onChangeResult) {
-            if (onChangeResult.target) {
-                console.log("changed", (onChangeResult.target.state));
-            }
-        }
-    });
+    const playRecording = blob => {
+        console.log("blob received, about to play")
+        console.log("blob:", blob);
+        const fileReader = new FileReader();
+        fileReader.onload = function () {
+            audioContext.current.decodeAudioData(fileReader.result, function(buffer) {
+                const source = audioContext.current.createBufferSource();
+                source.buffer = buffer;
 
-    function getAvailableAudioDevices() {
-        return new Promise((resolve) => {
-            navigator.mediaDevices.enumerateDevices().then((devices) => {
-                const availableDevices = devices
-                    .filter((d) => d.kind === "audioinput")
-                    .map((d) => {
-                        return { id: d.deviceId, name: d.label };
-                    });
-                resolve(availableDevices);
+                source.connect(audioContext.current.destination);
+                source.start();
             });
-        });
-    }
+        };
 
-    function handleClick(id) {
-        setSelectedAudioDevice(id);
-    }
+        fileReader.readAsArrayBuffer(blob);
+    };
 
-    const list = availableAudioDevices.map((d) => (
-        <div key={d.id} className="available-devices" onClick={() => handleClick(d.id)}>
-            <div>
-                {d.name}
-            </div>
-            <div>
-                {d.id}
-            </div>
-        </div>
-    ));
-    
-    
+    useEffect(() => {
+        // check whether getUserMedia is supported
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            console.log("getUserMedia supported!");
+            navigator.mediaDevices.getUserMedia({
+                audio: true
+            }).then((stream) => {
+                console.log("creating MediaRecorder()");
+                mediaRecorder.current = new MediaRecorder(stream);
+
+                mediaRecorder.current.ondataavailable = (e) => {
+                    console.log("data available");
+                    chunks.current.push(e.data);
+                }
+
+                mediaRecorder.current.onstop = (e) => {
+                    console.log("creating blob");
+                    const blob = new Blob(chunks.current, { type: "audio/ogg; codecs=opus"});
+                    chunks.current = [];
+                    playRecording(blob);
+                }
+            }).catch((err) => {
+                console.error(`The following getUserMedia error occurred: ${err}`);
+            });
+        } else {
+            console.log("getUserMedia not supported on your browser!");
+        }
+    }, []);
+
     return (
         <div>
-            <div>Javascript Audio</div>
-            {/* microphonePermissionState() === "granted" && <div>permission granted<div/> */
-                microphonePermissionState === "granted" ? (<div>permission granted</div>) : (<div></div>)
-            }
-            {/* microphonePermissionState() === "granted" && <div>permission granted<div/> */
-             microphonePermissionState === "granted" ? (
-                <div>
-                    {list}
-                    hi
-                </div>
-                ) : (<div></div>)
-            }
-
-            {/* microphonePermissionState() === "granted" && <div>permission granted<div/> */
-            microphonePermissionState === "prompt" ? (<div>please grant permission</div>) : (<div></div>)
-            }
-
-            {/* microphonePermissionState() === "granted" && <div>permission granted<div/> */
-            microphonePermissionState === "denied" ? (<div>permission denied</div>) : (<div></div>)
-            }
+            <div>VoiceRecorder</div>
+            <button onClick={() => recordAudio()}>Record</button>
+            <button onClick={() => stopRecordAudio()}>stopRecord</button>
         </div>
     )
-};
+}
 
 export default VoiceRecorder;
