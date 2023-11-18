@@ -1,8 +1,8 @@
 import "../../../styles/TrackStems.css";
 
-const TrackStems = () => {
+const TrackStems = ({ src }) => {
   return (
-    <div>
+    <div style={{backgroundColor: src ? "green" : "red"}}>
         <div>
             Hello this is TrackStems
         </div>

@@ -21,9 +21,7 @@ const TrackContainer = ({
           deleteTrack={deleteTrack}
           isTrackSelected={track.id == selectedTrack}
         />
-        {selectedTrack}$$$$$
-        {track.id}
-        <TrackStems />
+        <TrackStems src={track.src}/>
     </div>
   )
 };

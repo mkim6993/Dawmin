@@ -1,0 +1,28 @@
+# Dependency directories
+node_modules/
+
+# Environment variables file
+.env
+
+# Build output
+/build
+/dist
+
+# IDE and editor files
+.idea/
+.vscode/
+
+# Logs
+npm-debug.log*
+
+# Coverage directory used by tools like Istanbul
+coverage/
+
+# Dependency files
+package-lock.json
+
+# macOS system files
+.DS_Store
+
+# .gitignore file itself
+!.gitignore

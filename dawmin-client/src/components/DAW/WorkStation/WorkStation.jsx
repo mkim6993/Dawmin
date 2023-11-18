@@ -57,10 +57,12 @@ const WorkStation = () => {
     const [selectedTrack, setSelectedTrack] = useState();
 
     /**
-     * media Recorder refs
+     * media refs
      */
     const mediaRecorder = useRef();
     const chunks = useRef([]);
+    const audioContext = useRef();
+    const source = useRef();
 
     /**
      * Project Track Refs
@@ -77,7 +79,20 @@ const WorkStation = () => {
      */
     function togglePlayPause() {
         if (isPlaying) {
-            //
+            source.current.stop()
+        } else {
+            let fileReader = new FileReader();
+            fileReader.onload = function() {
+            audioContext.current.decodeAudioData(fileReader.result, function(buffer) {
+                source.current = audioContext.current.createBufferSource();
+                source.current.buffer = buffer;
+
+                source.current.connect(audioContext.current.destination);
+                source.current.start()
+            })
+        }
+
+        fileReader.readAsArrayBuffer(projectTracks[selectedTrack].src);
         }
         setIsPlaying(!isPlaying);
     }
@@ -206,16 +221,21 @@ const WorkStation = () => {
                 audio: true
             }).then((stream) => {
                 mediaRecorder.current = new MediaRecorder(stream);
+                audioContext.current = new AudioContext();
 
-                mediaRecorder.current.ondataavailable = (e) => {
-                    chunks.current.push(e.data);
-                }
+                // mediaRecorder.current.ondataavailable = (e) => {
+                //     console.log("ondataavailable");
+                //     chunks.current.push(e.data);
+                // }
 
-                mediaRecorder.current.onstop = () => {
-                    const blob = new Blob(chunks.current, { type: "audio/ogg; codecs=opus" });
-                    assignTrackSource(selectedTrack, blob);
-                    chunks.current = [];
-                }
+                // mediaRecorder.current.onstop = () => {
+                //     console.log("onstop");
+                //     const blob = new Blob(chunks.current, { type: "audio/ogg; codecs=opus" });
+                //     console.log("onstop blob:", blob);
+                //     console.log("selectedTrack:", selectedTrack);
+                //     assignTrackSource(selectedTrack, blob);
+                //     chunks.current = [];
+                // }
             }).catch((err) => {
                 console.err(`getUserMedia error occurred: ${err}`);
             });
@@ -223,6 +243,25 @@ const WorkStation = () => {
             console.log("getUserMedia not supported on your browser!");
         }
     }, []);
+
+    useEffect(() => {
+        if (mediaRecorder.current && selectedTrack) {
+
+            mediaRecorder.current.ondataavailable = (e) => {
+                console.log("ondataavailable");
+                chunks.current.push(e.data);
+            }
+
+            mediaRecorder.current.onstop = () => {
+                console.log("onstop");
+                const blob = new Blob(chunks.current, { type: "audio/ogg; codecs=opus" });
+                console.log("onstop blob:", blob);
+                console.log("selectedTrack:", selectedTrack);
+                assignTrackSource(selectedTrack, blob);
+                chunks.current = [];
+            }
+        }
+    }, [selectedTrack]);
     
     return (
         <div id="work-station-container">
