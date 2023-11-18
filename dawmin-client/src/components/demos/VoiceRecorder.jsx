@@ -49,7 +49,7 @@ const VoiceRecorder = () => {
                     chunks.current.push(e.data);
                 }
 
-                mediaRecorder.current.onstop = (e) => {
+                mediaRecorder.current.onstop = () => {
                     console.log("creating blob");
                     const blob = new Blob(chunks.current, { type: "audio/ogg; codecs=opus"});
                     chunks.current = [];

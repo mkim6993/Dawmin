@@ -16,7 +16,9 @@ const TrackProfile = ({
     toggleTrackIsolation,
     changeTrackVolume,
     deleteTrack,
+    isTrackSelected
 }) => {
+    const [contextMenu, setContextMenu] = useState(initialContextMenu);
 
     function toggleMute() {
         toggleTrackMute(track.id);
@@ -25,8 +27,6 @@ const TrackProfile = ({
     function toggleIsolation() {
         toggleTrackIsolation(track.id);
     }
-
-    const [contextMenu, setContextMenu] = useState(initialContextMenu);
 
     function handleContextMenu(event) {
       console.log("handlecontextmenu")
@@ -40,7 +40,7 @@ const TrackProfile = ({
     }
 
     return (
-        <div className="track-profile-container" onContextMenu={(event) => handleContextMenu(event)}>
+        <div className="track-profile-container" onContextMenu={(event) => handleContextMenu(event)} style={{ backgroundColor: isTrackSelected ? "rgb(146, 152, 162)" : ""}}>
             {contextMenu.show && <TrackStationContextMenu trackID={track.id} x={contextMenu.x} y={contextMenu.y} closeMenu={closeContextMenu} deleteTrack={deleteTrack}/>}
             <div>
                 <div className="track-profile-name">

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 
 const Osc1 = ({changeFreq, freq}) => {
   return (
