@@ -59,7 +59,7 @@ const WorkStation = () => {
     /**
      * media refs
      */
-    const mediaRecorder = useRef();
+    const mediaRecorder = useRef(null);
     const chunks = useRef([]);
     const audioContext = useRef();
     const source = useRef();
@@ -81,20 +81,28 @@ const WorkStation = () => {
         if (isPlaying) {
             source.current.stop()
         } else {
-            let fileReader = new FileReader();
-            fileReader.onload = function() {
-            audioContext.current.decodeAudioData(fileReader.result, function(buffer) {
-                source.current = audioContext.current.createBufferSource();
-                source.current.buffer = buffer;
-
-                source.current.connect(audioContext.current.destination);
-                source.current.start()
-            })
-        }
-
-        fileReader.readAsArrayBuffer(projectTracks[selectedTrack].src);
+            playAllStems()
         }
         setIsPlaying(!isPlaying);
+    }
+
+    async function playSingleStem(blob) {
+        const audioBuffer = await audioContext.current.decodeAudioData(await blob.arrayBuffer());
+        const source = audioContext.current.createBufferSource();
+        source.buffer = audioBuffer;
+        source.connect(audioContext.current.destination);
+
+        source.start(audioContext.current.currentTime);
+        return source
+    }
+
+    async function playAllStems() {
+        Object.keys(projectTracks).forEach(async trackId => {
+            const track = projectTracks[trackId];
+            const src = track.src;
+            await playSingleStem(src);
+            console.log(`Track ${trackId} source: ${src}`);
+        });
     }
 
     function onChangeMasterVolume(value) {
@@ -102,8 +110,10 @@ const WorkStation = () => {
     }
 
     function startRecording() {
-        mediaRecorder.current.start();
-        setIsRecording(true);
+        if (mediaRecorder.current && selectedTrack) {
+            mediaRecorder.current.start();
+            setIsRecording(true);
+        }
     }
 
     function stopRecording() {
@@ -254,7 +264,7 @@ const WorkStation = () => {
 
             mediaRecorder.current.onstop = () => {
                 console.log("onstop");
-                const blob = new Blob(chunks.current, { type: "audio/ogg; codecs=opus" });
+                const blob = new Blob(chunks.current, { type: "audio/mpeg" });
                 console.log("onstop blob:", blob);
                 console.log("selectedTrack:", selectedTrack);
                 assignTrackSource(selectedTrack, blob);
@@ -284,6 +294,7 @@ const WorkStation = () => {
                 deleteTrack={deleteTrack}
                 selectedTrack={selectedTrack}
                 changeSelectedTrack={changeSelectedTrack}
+                isRecording={isRecording}
             />
         </div>
     )

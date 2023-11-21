@@ -11,6 +11,7 @@ const TrackStation = ({
     deleteTrack, 
     selectedTrack,
     changeSelectedTrack,
+    isRecording
 }) => {
 
     return (
@@ -27,6 +28,7 @@ const TrackStation = ({
                         deleteTrack={deleteTrack}
                         selectedTrack={selectedTrack}
                         changeSelectedTrack={changeSelectedTrack}
+                        isRecording={isRecording}
                     />
                 ))}
                 <div style={{height: "200px"}}>Bottom{selectedTrack}</div>

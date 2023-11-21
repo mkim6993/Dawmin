@@ -9,7 +9,8 @@ const TrackContainer = ({
   changeTrackVolume,
   deleteTrack,
   selectedTrack,
-  changeSelectedTrack
+  changeSelectedTrack,
+  isRecording
 }) => {
   return (
     <div id="track-container" onClick={() => changeSelectedTrack(track.id)}>
@@ -21,7 +22,7 @@ const TrackContainer = ({
           deleteTrack={deleteTrack}
           isTrackSelected={track.id == selectedTrack}
         />
-        <TrackStems src={track.src}/>
+        <TrackStems src={track.src} isRecording={isRecording}/>
     </div>
   )
 };
